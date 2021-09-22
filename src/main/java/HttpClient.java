@@ -3,8 +3,23 @@ import java.net.Socket;
 
 public class HttpClient {
 
-    public HttpClient(String s, int i, String s1) throws IOException {
+    private final int statusCode;
 
+    public HttpClient(String hostname, int port, String requestTarget) throws IOException {
+        Socket socket = new Socket(hostname, port);
+        String request =
+                "GET " + requestTarget + " HTTP/1.1\r\n" +
+                        "Connection: close \r\n" +
+                        "Host: " + hostname + "\r\n" +
+                        "\r\n";
+        socket.getOutputStream().write(request.getBytes());
+        StringBuilder result = new StringBuilder();
+        int c;
+        while ((c = socket.getInputStream().read()) != -1) {
+            result.append((char) c);
+        }
+        String responseMessage = result.toString();
+        this.statusCode = Integer.parseInt(responseMessage.split(" ")[1]);
     }
 
     public static void main(String[] args) throws IOException {
@@ -12,6 +27,7 @@ public class HttpClient {
 
         String request =
                 "GET /html HTTP/1.1\r\n" +
+                        "Connection: close \r\n" +
                         "Host: httpbin.org\r\n" +
                         "\r\n";
         socket.getOutputStream().write(request.getBytes());
@@ -23,6 +39,6 @@ public class HttpClient {
     }
 
     public int getStatusCode() {
-        return 200;
+        return statusCode;
     }
 }
