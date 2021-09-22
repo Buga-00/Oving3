@@ -1,9 +1,11 @@
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class HttpClient {
 
     private final int statusCode;
+    private final HashMap<String, String> headerFields = new HashMap<>();
 
     public HttpClient(String hostname, int port, String requestTarget) throws IOException {
         Socket socket = new Socket(hostname, port);
@@ -15,8 +17,16 @@ public class HttpClient {
         socket.getOutputStream().write(request.getBytes());
 
         String statusLine = readLine(socket);
-
         this.statusCode = Integer.parseInt(statusLine.split(" ")[1]);
+
+        String headerLine;
+        while (!(headerLine = readLine(socket)).isBlank()){
+            int colonPos = headerLine.indexOf(':');
+            String key = headerLine.substring(0, colonPos);
+            String value = headerLine.substring(colonPos + 1).trim();
+            headerFields.put(key, value);
+        }
+
     }
 
     private String readLine(Socket socket) throws IOException {
@@ -25,6 +35,7 @@ public class HttpClient {
         while ((c = socket.getInputStream().read()) != -1 && c != '\r') {
             result.append((char) c);
         }
+        socket.getInputStream().read();
         return result.toString();
     }
 
@@ -48,7 +59,7 @@ public class HttpClient {
         return statusCode;
     }
 
-    public String getHeader(String s) {
-        return null;
+    public String getHeader(String headerName) {
+        return headerFields.get(headerName);
     }
 }
