@@ -14,7 +14,7 @@ public class HttpClientTest {
 
     @Test
     void shouldGetFailureResponseCode() throws IOException {
-        HttpClient client = new HttpClient("httpbin.org", 80, "/status/403");
+        HttpClient client = new HttpClient("httpbin.org", 80, "/status/401");
         assertEquals(401, client.getStatusCode());
     }
 

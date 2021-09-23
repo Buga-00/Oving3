@@ -12,8 +12,8 @@ public class HttpClient {
         Socket socket = new Socket(hostname, port);
         String request =
                 "GET " + requestTarget + " HTTP/1.1\r\n" +
-                        "Connection: close \r\n" +
                         "Host: " + hostname + "\r\n" +
+                        "Connection: close \r\n" +
                         "\r\n";
         socket.getOutputStream().write(request.getBytes());
 
@@ -57,8 +57,8 @@ public class HttpClient {
 
         String request =
                 "GET /html HTTP/1.1\r\n" +
-                        "Connection: close \r\n" +
                         "Host: httpbin.org\r\n" +
+                        "Connection: close \r\n" +
                         "\r\n";
         socket.getOutputStream().write(request.getBytes());
         int c;
