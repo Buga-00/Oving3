@@ -44,7 +44,7 @@ public class HttpClient {
     private String readLine(Socket socket) throws IOException {
         StringBuilder result = new StringBuilder();
         int c;
-        while ((c = socket.getInputStream().read()) != -1 && c != '\r') {
+        while ((c = socket.getInputStream().read()) != '\r') {
             result.append((char) c);
         }
         //noinspection ResultOfMethodCallIgnored
