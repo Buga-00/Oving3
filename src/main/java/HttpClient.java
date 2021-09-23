@@ -35,6 +35,7 @@ public class HttpClient {
         while ((c = socket.getInputStream().read()) != -1 && c != '\r') {
             result.append((char) c);
         }
+        //noinspection ResultOfMethodCallIgnored
         socket.getInputStream().read();
         return result.toString();
     }
@@ -65,5 +66,9 @@ public class HttpClient {
 
     public int getContentLength() {
         return Integer.parseInt(getHeader("Content-Length"));
+    }
+
+    public String getMessageBody() {
+        return null;
     }
 }
