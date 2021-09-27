@@ -14,16 +14,22 @@ public class HttpServer {
 
         System.out.println(requestLine);
 
-        String response = "<h1>Hello world</h1>";
+        String headerLine;
+        while (!(headerLine = HttpClient.readLine(clientSocket)).isBlank()){
+            System.out.println(headerLine);
+        }
 
-        clientSocket.getOutputStream().write((
-            "GET / HTTP/1.1 200 OK\r\n" +
-            "Content-Length: " + response.length() + "\r\n" +
-            "Connection: close\r\n" +
-            "\r\n" +
-            response
-        ).getBytes());
+        String messageBody = "Hello world";
+        String contentType = "text/html";
 
+        String responseBody = "HTTP/1.1 200 OK\r\n" +
+                "Content-Length: " + messageBody.length() + "\r\n" +
+                "Content-type: " + contentType + "\r\n" +
+                "Connection: close\r\n" +
+                "\r\n" +
+                messageBody;
+
+        clientSocket.getOutputStream().write(responseBody.getBytes());
     }
 
 }
