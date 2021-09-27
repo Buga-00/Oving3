@@ -11,7 +11,6 @@ public class HttpServer {
 
         new Thread(this::handleClients).start();
 
-
     }
 
     private void handleClients(){
@@ -39,7 +38,7 @@ public class HttpServer {
             System.out.println(headerLine);
         }
 
-        String messageBody = "Hello world";
+        String messageBody = "Hello World";
         String contentType = "text/html";
 
         String responseBody = "HTTP/1.1 200 OK\r\n" +
