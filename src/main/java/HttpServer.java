@@ -4,6 +4,26 @@ import java.net.Socket;
 
 public class HttpServer {
 
+    private final ServerSocket serverSocket;
+
+    public HttpServer(int serverPort) throws IOException {
+        serverSocket = new ServerSocket(serverPort);
+
+        new Thread(this::handleClients).start();
+
+
+    }
+
+    private void handleClients(){
+        try{
+            Socket clientSocket = serverSocket.accept();
+            String responseBody = "HTTP/1.1 4040 Not found\r\n\r\n";
+            clientSocket.getOutputStream().write(responseBody.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(8080);
 
