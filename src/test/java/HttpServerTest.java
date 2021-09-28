@@ -25,6 +25,7 @@ class HttpServerTest {
         HttpServer server = new HttpServer(10003);
         HttpClient client = new HttpClient("localhost", server.getPort(), "/hello");
         assertEquals(200, client.getStatusCode());
-        assertEquals("Hello world", client.getMessageBody());
+        assertEquals("<p>Hello world</p>", client.getMessageBody());
+        assertEquals("text/html", client.getHeader("Content-Type"));
     }
 }
