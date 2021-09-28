@@ -3,6 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class HttpServer {
 
@@ -36,15 +37,18 @@ public class HttpServer {
                 if ( rootDirectory != null && Files.exists(rootDirectory.resolve(requestTarget.substring(1)))){
                     String responseText = Files.readString(rootDirectory.resolve(requestTarget.substring(1)));
 
+                    String contentType = "text/plain";
+                    if (requestTarget.endsWith(".html")){
+                        contentType = "text/html";
+                    }
                     String responseBody = "HTTP/1.1 200 OK\r\n" +
                             "Content-Length: " +  responseText.length() +  "\r\n" +
-                            "Content-Type: text/html\r\n" +
+                            "Content-Type: " + contentType + "\r\n" +
                             "\r\n" +
                             responseText;
                     clientSocket.getOutputStream().write(responseBody.getBytes());
                     return;
                 }
-
 
 
                 String responseText = "File not found: " + requestTarget;
@@ -61,7 +65,8 @@ public class HttpServer {
     }
 
     public static void main(String[] args) throws IOException {
-        new HttpServer(8080);
+       HttpServer httpServer = new HttpServer(8080);
+       httpServer.setRoot(Paths.get("."));
     }
 
     public int getPort() {
