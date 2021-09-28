@@ -8,7 +8,7 @@ class HttpServerTest {
 
     @Test
     void shouldReturn404ForUnknownRequestTarget() throws IOException {
-        HttpServer server = new HttpServer(10001);
+        HttpServer server = new HttpServer(10005);
         HttpClient client = new HttpClient("localhost", server.getPort(), "/non-existing");
         assertEquals(404, client.getStatusCode());
     }
