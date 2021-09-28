@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class HttpServer {
@@ -32,6 +33,20 @@ public class HttpServer {
                         responseText;
                 clientSocket.getOutputStream().write(responseBody.getBytes());
             }else{
+                if ( rootDirectory != null && Files.exists(rootDirectory.resolve(requestTarget.substring(1)))){
+                    String responseText = Files.readString(rootDirectory.resolve(requestTarget.substring(1)));
+
+                    String responseBody = "HTTP/1.1 200 OK\r\n" +
+                            "Content-Length: " +  responseText.length() +  "\r\n" +
+                            "Content-Type: text/html\r\n" +
+                            "\r\n" +
+                            responseText;
+                    clientSocket.getOutputStream().write(responseBody.getBytes());
+                    return;
+                }
+
+
+
                 String responseText = "File not found: " + requestTarget;
 
                 String responseBody = "HTTP/1.1 404 Not found\r\n" +
