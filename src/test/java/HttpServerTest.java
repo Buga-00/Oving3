@@ -34,6 +34,13 @@ class HttpServerTest {
     }
 
     @Test
+    void shouldEchoQueryParameter() throws IOException {
+        HttpServer server = new HttpServer(0);
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=cemal");
+        assertEquals("<p>Hello cemal</p>", client.getMessageBody());
+    }
+
+    @Test
     void shouldServeFiles() throws IOException {
         HttpServer server = new HttpServer(0);
         server.setRoot(Paths.get("target/test-classes"));
@@ -41,7 +48,7 @@ class HttpServerTest {
         String fileContent = "A file created at " + LocalTime.now();
         Files.write(Paths.get("target/test-classes/example-file.txt"), fileContent.getBytes());
 
-        HttpClient client = new HttpClient("localHost", server.getPort(), "/example-file.txt");
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/example-file.txt");
         assertEquals(fileContent, client.getMessageBody());
         assertEquals("text/plain", client.getHeader("Content-Type"));
     }
@@ -51,7 +58,7 @@ class HttpServerTest {
         HttpServer server = new HttpServer(0);
         server.setRoot(Paths.get("target/test-classes"));
 
-        String fileContent = "<p>Hello</p>>";
+        String fileContent = "<p>Hello</p>";
         Files.write(Paths.get("target/test-classes/example-file.html"), fileContent.getBytes());
 
         HttpClient client = new HttpClient("localHost", server.getPort(), "/example-file.html");
