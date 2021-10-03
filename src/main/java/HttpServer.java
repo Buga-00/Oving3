@@ -53,6 +53,7 @@ public class HttpServer {
             String responseBody = "HTTP/1.1 200 OK\r\n" +
                     "Content-Length: " +  responseText.length() +  "\r\n" +
                     "Content-Type: text/html\r\n" +
+                    "Connection: close\r\n" +
                     "\r\n" +
                     responseText;
             clientSocket.getOutputStream().write(responseBody.getBytes());
@@ -67,6 +68,7 @@ public class HttpServer {
                 String responseBody = "HTTP/1.1 200 OK\r\n" +
                         "Content-Length: " +  responseText.length() +  "\r\n" +
                         "Content-Type: " + contentType + "\r\n" +
+                        "Connection: close\r\n" +
                         "\r\n" +
                         responseText;
                 clientSocket.getOutputStream().write(responseBody.getBytes());
