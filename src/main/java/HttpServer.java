@@ -35,9 +35,9 @@ public class HttpServer {
             }
 
             if (fileTarget.equals("/hello")){
-                String yourName = "";
+                String yourName = "world";
                 if (query != null){
-
+                    yourName = query.split("=")[1];
                 }
                     String responseText = "<p>Hello " + yourName + "</p>";
 
