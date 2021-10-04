@@ -8,10 +8,12 @@ public class HttpPostClient {
     public HttpPostClient(String hostname, int port, String requestTarget, String contentBody) throws IOException {
         Socket socket = new Socket(hostname, port);
         String request =
-                "GET " + requestTarget + " HTTP/1.1\r\n" +
+                "POST " + requestTarget + " HTTP/1.1\r\n" +
                         "Host: " + hostname + "\r\n" +
                         "Connection: close \r\n" +
-                        "\r\n";
+                        "Content-Length: " + contentBody.length() + "\r\n" +
+                        "\r\n" +
+                        contentBody;
         socket.getOutputStream().write(request.getBytes());
 
         httpMessage = new HttpMessage(socket);

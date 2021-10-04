@@ -10,7 +10,9 @@ public class HttpMessage {
     public HttpMessage(Socket socket) throws IOException {
      startLine = HttpMessage.readLine(socket);
      readHeaders(socket);
-     messageBody = HttpMessage.readCharacters(socket, getContentLength());
+     if (headerFields.containsKey("Content-Length")){
+         messageBody = HttpMessage.readCharacters(socket, getContentLength());
+     }
     }
 
     public int getContentLength() {
