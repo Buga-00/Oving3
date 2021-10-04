@@ -32,4 +32,5 @@ public class HttpClientTest {
                 "should be html: " + client.getMessageBody()
                 );
     }
+
 }
