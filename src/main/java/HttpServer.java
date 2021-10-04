@@ -4,7 +4,6 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,7 @@ public class HttpServer {
     private void handleClient() throws IOException {
         Socket clientSocket = serverSocket.accept();
 
-        String[] requestLine = HttpClient.readLine(clientSocket).split(" ");
+        String[] requestLine = HttpMessage.readLine(clientSocket).split(" ");
         String requestTarget = requestLine[1];
 
         int questionPos = requestTarget.indexOf('?');
