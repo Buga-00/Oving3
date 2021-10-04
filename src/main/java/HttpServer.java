@@ -82,6 +82,7 @@ public class HttpServer {
 
             String responseBody = "HTTP/1.1 404 Not found\r\n" +
                     "Content-Length: " +  responseText.length() +  "\r\n" +
+                    "Connection: close\r\n" +
                     "\r\n" +
                     responseText;
             clientSocket.getOutputStream().write(responseBody.getBytes());
