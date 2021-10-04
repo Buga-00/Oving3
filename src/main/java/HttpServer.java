@@ -4,11 +4,15 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpServer {
 
     private final ServerSocket serverSocket;
     private Path rootDirectory;
+    private List<String> roles = new ArrayList<>();
 
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket(serverPort);
@@ -97,5 +101,9 @@ public class HttpServer {
 
     public void setRoot(Path rootDirectory) {
         this.rootDirectory = rootDirectory;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
