@@ -46,8 +46,12 @@ class HttpServerTest {
 
     @Test
     void shouldEchoQueryParameter() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=cemal");
-        assertEquals("<p>Hello cemal</p>", client.getMessageBody());
+        HttpClient client = new HttpClient(
+                "localhost",
+                server.getPort(),
+                "/hello?firstName=Test&lastName=Persson"
+        );
+        assertEquals("<p>Hello Persson, Test</p>", client.getMessageBody());
     }
 
     @Test
@@ -78,7 +82,8 @@ class HttpServerTest {
         server.setRoles(List.of("Teacher", "Student"));
 
 
-        HttpClient client = new HttpClient("localHost", server.getPort(), "/api/roleOptions");
+        HttpClient client = new HttpClient(
+                "localHost", server.getPort(), "/api/roleOptions");
         assertEquals(
                 "<option value=1>Teacher</option><option value=2>Student</option>",
                 client.getMessageBody()
