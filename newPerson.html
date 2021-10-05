@@ -1,27 +1,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New Person | Personnel</title>
+    <title>New Product | Personnel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <main>
-        <h1>Add a new person</h1>
+        <h1>Add a new product</h1>
 
-        <form action="/api/newPerson" method="post">
+        <form action="/api/newProduct" method="post">
             <p><label>First name: <input type="text" name="firstName"></label></p>
-            <p><label>Last name: <input type="text" name="lastName"></label></p>
-            <p><label>Role <select name="role" id="roles"></select></label></p>
+            <p><label>Product category: <input type="text" name="productName"></label></p>
+            <p><label>Role <select name="category" id="categories"></select></label></p>
             <button>Submit</button>
         </form>
     </main>
 </body>
 <script>
-    fetch("/api/roleOptions").then(function (res){
+    fetch("/api/categoryOptions").then(function (res){
         return res.text();
     }).then(function (text){
-        document.getElementById("roles").innerHTML = text;
+        document.getElementById("categories").innerHTML = text;
     });
 </script>
 

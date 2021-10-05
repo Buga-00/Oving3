@@ -1,4 +1,4 @@
-public class Person {
+public class Product {
     private String firstName;
     private String lastName;
 

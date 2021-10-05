@@ -13,8 +13,8 @@ public class HttpServer {
 
     private final ServerSocket serverSocket;
     private Path rootDirectory;
-    private List<String> roles = new ArrayList<>();
-    private List<Person> people = new ArrayList<>();
+    private List<String> categories = new ArrayList<>();
+    private List<Product> item = new ArrayList<>();
 
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket(serverPort);
@@ -55,24 +55,24 @@ public class HttpServer {
             if (query != null) {
                 Map<String, String> queryMap = parseRequestParameters(query);
 
-                yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
+                yourName = queryMap.get("productName") + ", " + queryMap.get("firstName");
             }
             String responseText = "<p>Hello " + yourName + "</p>";
 
             writeOkResponse(clientSocket, responseText, "text/html");
-        }else if (fileTarget.equals("/api/newPerson")){
+        }else if (fileTarget.equals("/api/newProduct")){
             Map<String, String> queryMap = parseRequestParameters(httpMessage.messageBody);
-            Person person = new Person();
-            person.setLastName(queryMap.get("lastName"));
-            people.add(person);
+            Product product = new Product();
+            product.setLastName(queryMap.get("productName"));
+            item.add(product);
 
             writeOkResponse(clientSocket, "it is done", "text/html");
-        }else if (fileTarget.equals("/api/roleOptions")){
+        }else if (fileTarget.equals("/api/categoryOptions")){
             String responseText = "";
 
             int value = 1;
-            for (String role : roles) {
-                responseText += "<option value=" + (value++) + ">" + role + "</option>";
+            for (String category : categories) {
+                responseText += "<option value=" + (value++) + ">" + category + "</option>";
             }
 
 
@@ -124,7 +124,7 @@ public class HttpServer {
 
     public static void main(String[] args) throws IOException {
        HttpServer httpServer = new HttpServer(8080);
-       httpServer.setRoles(List.of("Student", "Teaching assistant", "Teacher"));
+       httpServer.setCategories(List.of("Food", "Drinks", "Candy"));
        httpServer.setRoot(Paths.get("."));
     }
 
@@ -136,11 +136,11 @@ public class HttpServer {
         this.rootDirectory = rootDirectory;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
-    public List<Person> getPeople() {
-        return people;
+    public List<Product> getItem() {
+        return item;
     }
 }

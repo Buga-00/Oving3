@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.List;
@@ -49,7 +48,7 @@ class HttpServerTest {
         HttpClient client = new HttpClient(
                 "localhost",
                 server.getPort(),
-                "/hello?firstName=Test&lastName=Persson"
+                "/hello?firstName=Test&productName=Persson"
         );
         assertEquals("<p>Hello Persson, Test</p>", client.getMessageBody());
     }
@@ -79,27 +78,27 @@ class HttpServerTest {
 
     @Test
     void shouldReturnRolesFromServer() throws IOException {
-        server.setRoles(List.of("Teacher", "Student"));
+        server.setCategories(List.of("Food", "Drinks"));
 
 
         HttpClient client = new HttpClient(
-                "localHost", server.getPort(), "/api/roleOptions");
+                "localHost", server.getPort(), "/api/categoryOptions");
         assertEquals(
-                "<option value=1>Teacher</option><option value=2>Student</option>",
+                "<option value=1>Food</option><option value=2>Drinks</option>",
                 client.getMessageBody()
         );
     }
 
     @Test
-    void shouldCreateNewPerson() throws IOException {
+    void shouldCreateNewProduct() throws IOException {
         HttpPostClient postClient = new HttpPostClient(
                 "localhost",
                 server.getPort(),
-                "/api/newPerson",
-                "lastName=Persson&firstName=Test"
+                "/api/newProduct",
+                "productName=Persson&firstName=Test"
         );
         assertEquals(200, postClient.getStatusCode());
-        Person person = server.getPeople().get(0);
-        assertEquals("Persson", person.getLastName());
+        Product product = server.getItem().get(0);
+        assertEquals("Persson", product.getLastName());
     }
 }
